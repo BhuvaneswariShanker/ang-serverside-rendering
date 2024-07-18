@@ -1,27 +1,75 @@
-# AngServersideRendering
+# Server-side rendering
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
+Server-side rendering (SSR) is a process that involves rendering pages on the server, resulting in initial HTML content which contains initial page state. Once the HTML content is delivered to a browser, Angular initializes the application and utilizes the data contained within the HTML.
 
-## Development server
+## Why use SSR?
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The main advantages of SSR as compared to client-side rendering (CSR) are:
 
-## Code scaffolding
+Improved performance: SSR can improve the performance of web applications by delivering fully rendered HTML to the client, which can be parsed and displayed even before the application JavaScript is downloaded. This can be especially beneficial for users on low-bandwidth connections or mobile devices.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Improved Core Web Vitals: SSR results in performance improvements that can be measured using Core Web Vitals (CWV) statistics, such as reduced First Contentful Paint (FCP) and Largest Contentful Paint (LCP), as well as Cumulative Layout Shift (CLS).
 
-## Build
+Better SEO: SSR can improve the search engine optimization (SEO) of web applications by making it easier for search engines to crawl and index the content of the application.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Angular with Server side rendering
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Step 1: Angular with SSR configuration
 
-## Running end-to-end tests
+Create a angular project with SSR capabilities by providing yes in Angular CLI prompt
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Step 2: Verify necessary files
 
-## Further help
+Verify below files are added to project
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1) ang-serverside-rendering > server.ts 
+2) ang-serverside-rendering > src > main.server.ts
+3) ang-serverside-rendering > src > app > app.config.server.ts
+
+And verify this script is added in package.json file, under scripts
+
+```bash
+"serve:ssr:ang-serverside-rendering": "node dist/ang-serverside-rendering/server/server.mjs"
+```
+
+### Step 3: Verify build
+
+Create build by running below command,
+
+```bash
+ng build --configuration=production
+```
+
+Run the app using ssr options, by running the script in package.json file
+
+```bash
+"serve:ssr:ang-serverside-rendering": "node dist/ang-serverside-rendering/server/server.mjs"
+```
+
+### Step 4: Hosting files in nodejs server
+
+After running the script , you will see the below console log in terminal
+
+```bash
+ *  Executing task: npm run serve:ssr:ang-serverside-rendering 
+
+
+> ang-serverside-rendering@0.0.0 serve:ssr:ang-serverside-rendering
+> node dist/ang-serverside-rendering/server/server.mjs
+
+Node Express server listening on http://localhost:4000
+```
+
+Open the url http://localhost:4000 in browser and all the contents are rendered in view.
+
+### Step 5: Verify whether the content is hosted from server than loading locally.
+
+Right click on the webpage and select view page source, you should see whole DOM file listed.
+Ensuring all the contents are rendered from server.
+
+![Server side rendering - page source](./sampleImages/SSR-pagesource.png)
+
+If you verify the same for client side rendering application, only few DOM elements will be present.
+
+![Client side rendering - page source](./sampleImages/CSR-pagesource.png)
